@@ -89,7 +89,7 @@ include('../../conexion.php');
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    $('.btn_editar').click(function() {
+$('.btn_editar').click(function() {
     var id = $(this).data('id');
     var estado = $(this).data('estado');
     if (estado == 1) {
@@ -126,7 +126,7 @@ include('../../conexion.php');
                         <textarea class="form-control" name="descripcion" rows="4" required>${descripcion}</textarea>
                     </div>
                 </div>
-                <input type="hidden" name="id" value="${id}"> <!-- Agrega este campo oculto con el ID -->
+                <input type="hidden" name="id" value="${id}">
             </div>
         </form>`,
         showCancelButton: true,
@@ -135,27 +135,28 @@ include('../../conexion.php');
         confirmButtonText: 'Aplicar'
     }).then((result) => {
         if (result.isConfirmed) {
-
-            const datos = document.querySelector("#update-categoria");
-            const datos_actualizados = new FormData(datos);
+            var datos = $('#update-categoria').serialize();
             var url = "../Controllers/Actualizar/update_categoria.php";
 
-            fetch(url, {
-                method: 'POST',
-                body: datos_actualizados
-            })
-            .then(response => response.json()) 
-            .then(data => {
-                if (data.error === 0) {
-                    Swal.fire('Éxito', 'Los cambios han sido guardados.', 'success');
-                    // Actualizar los valores en la tabla o realizar cualquier acción adicional
+            var regexTEXTO = /^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$/;
+
+            if (!regexTEXTO.test(nombre)) {
+                Swal.fire("Ingrese un nombre válido", "", "error");
+                return;
+            }
+            if (!regexTEXTO.test(descripcion)) {
+                Swal.fire("Ingrese una descripción válida", "", "error");
+                return;
+            }
+
+            $.post(url, datos, function(respuesta) {
+                
+                if (datos.error === 1) {
+                    Swal.fire(respuesta.mensaje, "", "error");
+                    
                 } else {
-                    Swal.fire('Error', 'No se pudo guardar los cambios.', 'error');
+                    Swal.fire(respuesta.mensaje, "", "success");
                 }
-            })
-            .catch(error => {
-                console.log('Error:', error);
-                Swal.fire('Error', 'No se pudo guardar los cambios.', 'error');
             });
         }
     });

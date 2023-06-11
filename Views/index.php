@@ -1,4 +1,6 @@
 <?php
+include('../conexion.php');
+
 session_start();
 if (!isset($_SESSION['DNI'])) {
   header('Location: ../Login/index.php');
@@ -134,7 +136,7 @@ if (!isset($_SESSION['DNI'])) {
                     echo $_SESSION['Nombre'] . ' ' . $_SESSION['Apellido'];
                     ?></a>
             <span class="text-muted"><?php if ($_SESSION['Permiso'] == 1) {
-                                      ?>Supervisor<?php
+                                      ?>Administrador<?php
                                                 } else {
                                                   ?>Farmaceutico<?php
                                                               } ?></span>
@@ -148,13 +150,36 @@ if (!isset($_SESSION['DNI'])) {
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-            <li class="nav-item">
+            <!--li class="nav-item">
               <a onclick="cargar_contenido('contenido_principal','usuario/vista_panel_venta.php')" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Panel de Venta
                 </p>
               </a>
+            </li-->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>
+                  Medicamentos
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_medicina_agregar.php')" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Agregar Medicamento</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_medicina_gestion.php')" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Gestionar Medicamento</p>
+                  </a>
+                </li>
+              </ul>
             </li>
             <?php if ($_SESSION['Permiso'] == 1) {
             ?>
@@ -205,29 +230,7 @@ if (!isset($_SESSION['DNI'])) {
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                  Medicamentos
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_medicina_agregar.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Agregar Medicamento</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_medicina_gestion.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Gestionar Medicamento</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+            
             <li class="nav-item">
               <a href="#" class="nav-link" style="user-select: none;">
                 <i class="nav-icon fas fa-table"></i>
@@ -251,14 +254,6 @@ if (!isset($_SESSION['DNI'])) {
                 </li>
               </ul>
             </li>
-            <li class="nav-item">
-              <a onclick="cargar_contenido('contenido_principal','usuario/vista_factura.php')" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                  Factura
-                </p>
-              </a>
-            </li>
           </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -279,57 +274,114 @@ if (!isset($_SESSION['DNI'])) {
                 <!-- left column -->
                 <div class="col-md-12">
                   <!-- jquery validation -->
-                  <div class="card card-success">
-                    <div class="card-header">
-                      <h3 class="card-title">Panel de Venta</h3>
+                  <div>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Panel Medicamento</h1>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Precio Unitario</th>
+                                        <th scope="col">Precio x Caja</th>
+                                        <th scope="col">Unidad x Caja</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    ///$sql = "SELECT * FROM medicina";
+
+
+                                    $sql = "SELECT m.*, p.Nombre AS nombre_proveedor, c.Nombre AS nombre_categoria 
+        FROM medicina m 
+        INNER JOIN proveedor p ON m.ID_proveedor = p.ID_proveedor 
+        INNER JOIN categoria c ON m.ID_categoria = c.ID_categoria";
+                                    $result = mysqli_query($conexion, $sql);
+                                    while ($mostrar = mysqli_fetch_array($result)) {
+                                    ?>
+
+                                        <tr>
+
+                                            <td><?php echo $mostrar['ID_medicina'] ?></td>
+                                            <td><?php echo $mostrar['nombre_proveedor'] ?></td>
+                                            <td><?php echo $mostrar['Nombre'] ?></td>
+                                            <td><?php echo $mostrar['nombre_categoria'] ?></td>
+                                            <td><?php echo $mostrar['Marca'] ?></td>
+                                            <td>S/.<?php echo $mostrar['Precio_uni'] ?></td>
+                                            <td>S/.<?php echo $mostrar['Precio_caja'] ?></td>
+                                            <td><?php echo $mostrar['Unidad_caja'] ?></td>
+                                            <td><?php echo $mostrar['Stock'] ?></td>
+                                            <td><?php if ($mostrar['Estado'] == 0) {
+                                                ?> <button type="button" class="btn btn-secondary btn-disabled" style="pointer-events: none;">Inactivo</button><?php
+                                                                                                                                                            } else {
+                                                                                                                                                                ?> <button type="button" class="btn btn-success btn-disabled" style="pointer-events: none;">Activo</button><?php
+                                                                                                                                                                                                                                                                        }  ?></td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-info btn_editar" data-id="<?php echo $mostrar['ID_medicina']; ?>" data-estado="<?php echo $mostrar['Estado']; ?>"><i class="far fa-edit"></i></button>
+                                                    <!--Codigo para separar los botones class="... ml-2"-->
+                                                    <button type="button" class="btn btn-danger btn_eliminar" data-id="<?php echo $mostrar['ID_medicina']; ?>"><i class="fas fa-trash-alt"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    <?php
+                                    }
+                                    ?>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Proveedor</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Marca</th>
+                                        <th scope="col">Precio Unitario</th>
+                                        <th scope="col">Precio x Caja</th>
+                                        <th scope="col">Unidad x Caja</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
                     </div>
 
-                    <div class="card-body">
-                      <div class="form-group">
-                        <div class="row">
-                          <div class="col-6">
-                            <label for="dni">DNI:</label>
-                            <input type="textr" class="form-control" name="dni" id="dni" placeholder="Ingrese DNI" required>
-                          </div>
-                          <div class="col-6">
-                            <label for="estado">Cargo:</label>
-                            <select class="custom-select rounded-0" name="estado" id="estado" required>
-                              <option value="0">Trabajador</option>
-                              <option value="1">Supervisor</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="row">
-                          <div class="col-6">
-                            <label for="nombre">Nombre:</label>
-                            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Ingrese Nombre" required>
-                          </div>
-                          <div class="col-6">
-                            <label for="apellido">Apellido:</label>
-                            <input type="text" class="form-control" name="apellido" id="apellido" placeholder="Ingrese Apellido" required>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="row">
-                          <div class="col-6">
-                            <label for="correo">Correo Electronico:</label>
-                            <input type="email" class="form-control" name="correo" id="correo" placeholder="Ingrese Correo" required>
-                          </div>
-                          <div class="col-6">
-                            <label for="contra">Contraseña:</label>
-                            <input type="text" class="form-control" name="contra" id="contraseña" placeholder="Ingrese Contraseña" required>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-primary" id="btn_registrar">Registrar</button>
-                    </div>
-                  </div>
-
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
                   <!-- /.card -->
                 </div>
                 <!--/.col (left) -->
@@ -361,6 +413,75 @@ if (!isset($_SESSION['DNI'])) {
   <!-- jQuery UI 1.11.4 -->
   <script src="../Plantilla/AdminLTE-3.2.0/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $('.btn_editar').click(function() {
+        var id = $(this).data('id');
+        var estado = $(this).data('estado');
+        var permiso = $(this).data('permiso');
+        // Hacer una solicitud Ajax para obtener el formulario de edición
+        $.ajax({
+            url: '../Controllers/editar_admin.php',
+            type: 'POST',
+            data: {
+                id: id,
+                permiso: permiso,
+                estado: estado
+            },
+            success: function(response) {
+                var data = JSON.parse(response)
+                var form = data.form
+                // Mostrar SweetAlert2 con el formulario de edición
+                Swal.fire({
+                    title: 'Editar Registro',
+                    html: form,
+                    showCancelButton: true,
+                    showConfirmButton: false
+                });
+            },
+            error: function() {
+                Swal.fire('Error', 'Ocurrió un error al obtener el formulario de edición', 'error');
+            }
+        });
+    });
+    $('.btn_eliminar').click(function() {
+        var fila = $(this).closest('tr'); // Obtener la fila padre del botón de eliminar
+        var idTrabajador = $(this).data('id');
+        // Confirmar la eliminación utilizando SweetAlert
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede deshacer.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Enviar solicitud AJAX para eliminar el registro
+                $.ajax({
+                    url: '../Controllers/Eliminar/eliminar_medicina.php',
+                    type: 'POST',
+                    data: {
+                        id: idTrabajador
+                    },
+                    success: function(response) {
+                        // Mostrar mensaje de éxito
+                        Swal.fire('Eliminado', 'El registro ha sido eliminado correctamente.', 'success');
+                        // Eliminar la fila de la tabla
+                        fila.remove();
+                    },
+                    error: function() {
+                        // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+                        Swal.fire('Error', 'No se pudo eliminar el registro.', 'error');
+                    }
+                });
+            }
+        });
+    });
+</script>
   <script>
     function cargar_contenido(contenedor, contenido) {
       $("#" + contenedor).load(contenido);

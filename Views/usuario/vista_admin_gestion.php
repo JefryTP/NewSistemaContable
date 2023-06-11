@@ -69,7 +69,7 @@ include('../../conexion.php');
                                                                                                                                                                                                                                                                         }  ?></td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <button type="button" class="btn btn-info btn_editar" data-id="<?php echo $mostrar['ID_trabajador']; ?>" data-estado="<?php echo $mostrar['Estado']; ?>" data-permiso="<?php echo $mostrar['Permiso']; ?>"><i class="far fa-edit"></i></button>
+                                                    <button type="button" class="btn btn-info btn_editar" data-id="<?php echo $mostrar['ID_trabajador']; ?>"data-nombre="<?php echo $mostrar['Nombre']; ?>" data-apellido="<?php echo $mostrar['Apellido']; ?>" data-correo="<?php echo $mostrar['Correo']; ?>" data-dni="<?php echo $mostrar['DNI']; ?>" data-contraseña="<?php echo $mostrar['Contraseña']; ?>"  data-estado="<?php echo $mostrar['Estado']; ?>" data-permiso="<?php echo $mostrar['Permiso']; ?>"><i class="far fa-edit"></i></button>
                                                     <!--Codigo para separar los botones class="... ml-2"-->
                                                     <button type="button" class="btn btn-danger btn_eliminar" data-id="<?php echo $mostrar['ID_trabajador']; ?>"><i class="fas fa-trash-alt"></i></button>
                                                 </div>
@@ -113,32 +113,120 @@ include('../../conexion.php');
 <script>
     $('.btn_editar').click(function() {
         var id = $(this).data('id');
+        var nombre = $(this).data('nombre');
+        var apellido = $(this).data('apellido');
+        var correo = $(this).data('correo');
+        var dni = $(this).data('dni');
+        var contraseña = $(this).data('contraseña');
         var estado = $(this).data('estado');
-        var permiso = $(this).data('permiso');
-        // Hacer una solicitud Ajax para obtener el formulario de edición
-        $.ajax({
-            url: '../Controllers/editar_admin.php',
-            type: 'POST',
-            data: {
-                id: id,
-                permiso: permiso,
-                estado: estado
-            },
-            success: function(response) {
-                var data = JSON.parse(response)
-                var form = data.form
-                // Mostrar SweetAlert2 con el formulario de edición
-                Swal.fire({
-                    title: 'Editar Registro',
-                    html: form,
-                    showCancelButton: true,
-                    showConfirmButton: false
-                });
-            },
-            error: function() {
-                Swal.fire('Error', 'Ocurrió un error al obtener el formulario de edición', 'error');
+    if (estado == 1) {
+        var opciones = `
+        <option value="0">Inactivo</option>
+        <option value="1" selected>Activo</option>`;
+    } else {
+        var opciones = `
+        <option value="0" selected>Inactivo</option>
+        <option value="1">Activo</option>`;
+    }
+    var permiso = $(this).data('permiso');
+    if (permiso == 1) {
+        var opciones2 = `
+        <option value="0">Farmaceutico</option>
+        <option value="1" selected>Administrador</option>`;
+    } else {
+        var opciones2 = `
+        <option value="0" selected>Farmaceutico</option>
+        <option value="1">Administrador</option>`;
+    }
+    Swal.fire({
+        title: 'Actualizar Registro',
+        html: `
+        <form id="update-admin">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md">
+                        <label for="dni">DNI:</label>
+                        <input type="number" class="form-control ocultar-btn-incremento" name="dni" value="${dni}" required>
+                    </div>
+                    <div class="col-md">
+                        <label for="estado">Estado:</label>
+                        <select class="form-control" name="estado" required>
+                            ${opciones}
+                        </select>
+                    </div>
+                    <div class="col-md">
+                        <label for="cargo">Cargo:</label>
+                        <select class="form-control" name="cargo" required>
+                            ${opciones2}
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" name="nombre" value="${nombre}" required>
+                    </div>
+                    <div class="col-md">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" class="form-control" name="apellido" value="${apellido}" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <label for="correo">Correo:</label>
+                        <input type="email" class="form-control" name="correo" value="${correo}" required>
+                    </div>
+                    <div class="col-md">
+                        <label for="contrasena">Contraseña:</label>
+                        <input type="text" class="form-control" name="contrasena" value="${contraseña}" required>
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="${id}">
+            </div>
+        </form>`,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aplicar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datos = $('#update-admin').serialize();
+            var url = "../Controllers/Actualizar/update_admin.php";
+
+            var regexTEXTO = /^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$/;
+
+            if (!regexTEXTO.test(dni)) {
+                Swal.fire("Ingrese un nombre válido", "", "error");
+                return;
             }
-        });
+            if (!regexTEXTO.test(descripcion)) {
+                Swal.fire("Ingrese una descripción válida", "", "error");
+                return;
+            }
+            if (!regexTEXTO.test(descripcion)) {
+                Swal.fire("Ingrese una descripción válida", "", "error");
+                return;
+            }
+            if (!regexTEXTO.test(descripcion)) {
+                Swal.fire("Ingrese una descripción válida", "", "error");
+                return;
+            }
+            if (!regexTEXTO.test(descripcion)) {
+                Swal.fire("Ingrese una descripción válida", "", "error");
+                return;
+            }
+
+            $.post(url, datos, function(respuesta) {
+                
+                if (datos.error === 1) {
+                    Swal.fire(respuesta.mensaje, "", "error");
+                    
+                } else {
+                    Swal.fire(respuesta.mensaje, "", "success");
+                }
+            });
+        }
+    });
     });
     $('.btn_eliminar').click(function() {
         var fila = $(this).closest('tr'); // Obtener la fila padre del botón de eliminar

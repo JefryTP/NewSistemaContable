@@ -27,9 +27,10 @@ session_destroy();
 
             <!-- Login Form -->
             <form action="validar_usuario.php" method="post" id="loginForm">
-                <input type="text" id="login" class="fadeIn second" name="correo" placeholder="correo">
+                <input type="text" id="login" class="fadeIn second" name="dni" placeholder="DNI">
                 <input type="password" id="password" class="fadeIn third" name="contrasena" placeholder="contraseña">
-                <input type="submit" class="fadeIn fourth" value="Ingresar">
+                <!--input type="submit" class="fadeIn fourth" value="Ingresar"-->
+                <button type="submit" class="fadeIn fourth" id="btn_ingresar">Ingresar</button>
             </form>
             <!-- Remind Passowrd -->
             <!--div id="formFooter">
@@ -38,6 +39,55 @@ session_destroy();
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('#btn_ingresar').click(function() {
+        var dni = $('#dni').val();
+        var contrasena = $('#contrasena').val();
+
+        var url = 'validar_usuario.php'
+
+        // Expresiones regulares para las validaciones
+        var regexNombreApellido = /^[a-zA-Z\s]+$/;
+        var regexRUC = /^\d{11}$/;
+        var regexDNI = /^\d{8}$/;
+        var regexTEXTO = /^[a-zA-Z\s]+$/;
+        var regexCORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        var regexContraseña = /^.{8,}$/;
+        var regexTEXTO = /^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$/;
+
+
+        // Validación del nombre
+        if (!regexDNI.test(dni)) {
+            $('#dni').val('');
+            Swal.fire("Ingrese un nombre válido", "", "error");
+            $('#dni').focus();
+            return;
+        }
+
+        // Validación del apellido
+        if (!regexNombreApellido.test(contrasena)) {
+            $('#contrasena').val('');
+            Swal.fire("Ingrese un apellido válido", "", "error");
+            $('#contrasena').focus();
+            return;
+        }
+
+        $.post(url, {
+            nombre: nombre,
+            descripcion: descripcion,
+        }, function(datos) {
+            var respuesta = JSON.parse(datos);
+            if (respuesta.error === 1) {
+                Swal.fire(respuesta.mensaje, "", "error");
+            } else {
+                Swal.fire(respuesta.mensaje, "", "success");
+                $('#nombre').val('');
+                $('#descripcion').val('');
+            }
+
+        });
+    });
+    </script>
     <?php
     if (isset($_GET['error'])) {
         $error = $_GET['error'];
