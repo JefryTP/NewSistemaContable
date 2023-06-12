@@ -1,14 +1,17 @@
 --El nombre de la Base de Datos debe ser "bd_contable"
 
-CREATE TABLE Caja
-(
-  ID_caja INT AUTO_INCREMENT,
-	dni INT NOT NULL,
-	ID_transaccion INT NOT NULL,
-	fecha DATETIME NOT NULL,
-  PRIMARY KEY (ID_caja),
-  FOREIGN KEY (ID_transaccion) REFERENCES Transaccion (ID_transaccion),
-  FOREIGN KEY (dni) REFERENCES Usuario (dni)
+  CREATE TABLE Rol
+  (
+    ID_rol INT AUTO_INCREMENT,
+	  nombre VARCHAR (50) NOT NULL,
+    PRIMARY KEY (ID_rol)
+);
+
+    CREATE TABLE Tipo
+    (
+      ID_tipo INT AUTO_INCREMENT,
+      nombre VARCHAR (50) NOT NULL,
+      PRIMARY KEY (ID_tipo)
 );
 
   CREATE TABLE Cliente
@@ -21,19 +24,17 @@ CREATE TABLE Caja
     PRIMARY KEY (ruc)
   );
 
-  CREATE TABLE Rol
-  (
-    ID_rol INT AUTO_INCREMENT,
-	  nombre VARCHAR (50) NOT NULL,
-    PRIMARY KEY (ID_rol)
-);
-
-
-    CREATE TABLE Tipo
-    (
-      ID_tipo INT AUTO_INCREMENT,
-      nombre VARCHAR (50) NOT NULL,
-      PRIMARY KEY (ID_tipo)
+        CREATE TABLE Usuario
+        (
+          dni INT AUTO_INCREMENT,
+	        nombre VARCHAR (50) NOT NULL,
+	        apellido VARCHAR (50) NOT NULL,
+	        correo VARCHAR (250) NOT NULL,
+	        contraseña VARCHAR (50) NOT NULL,
+	        ID_rol INT NOT NULL,
+	        estado BIT NOT NULL,
+	        PRIMARY KEY (dni),
+          FOREIGN KEY (ID_rol) REFERENCES Rol (ID_rol)
 );
 
       CREATE TABLE Transaccion
@@ -52,19 +53,15 @@ CREATE TABLE Caja
         FOREIGN KEY (dni) REFERENCES Usuario (dni)
 );
 
-
-
-        CREATE TABLE Usuario
-        (
-          dni INT AUTO_INCREMENT,
-	        nombre VARCHAR (50) NOT NULL,
-	        apellido VARCHAR (50) NOT NULL,
-	        correo VARCHAR (250) NOT NULL,
-	        contraseña VARCHAR (50) NOT NULL,
-	        ID_rol INT NOT NULL,
-	        estado BIT NOT NULL,
-	        PRIMARY KEY (dni),
-          FOREIGN KEY (ID_rol) REFERENCES Rol (ID_rol)
+CREATE TABLE Caja
+(
+  ID_caja INT AUTO_INCREMENT,
+	dni INT NOT NULL,
+	ID_transaccion INT NOT NULL,
+	fecha DATETIME NOT NULL,
+  PRIMARY KEY (ID_caja),
+  FOREIGN KEY (ID_transaccion) REFERENCES Transaccion (ID_transaccion),
+  FOREIGN KEY (dni) REFERENCES Usuario (dni)
 );
 
           INSERT INTO Rol
