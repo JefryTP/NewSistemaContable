@@ -3,58 +3,54 @@ session_start();
 
 include('../conexion.php');
 /*require 'conexion.php';*/
-if (isset($_POST['correo']) && isset($_POST['contrasena'])) {
+if (isset($_POST['dni']) && isset($_POST['contrasena'])) {
 
-    echo "Conexion GOD";
-    function validate($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-    }
+    $dni = $_POST['dni'];
+    $clave = $_POST['contrasena'];
 
-    $correo = validate($_POST['correo']);
-    $clave = validate($_POST['contrasena']);
-
-    if (empty($correo)) {
-        header("Location: index.php?error=correo-no-ingresada");
+    if (empty($dni)) {
+        echo json_encode(array('error' => 1, 'mensaje' => 'Ingrese el DNI.'));
         exit();
     } elseif (empty($clave)) {
-        header("Location: index.php?error=contraseña-no-ingresada");
+        echo json_encode(array('error' => 1, 'mensaje' => 'Ingrese la contraseña.'));
         exit();
     } else {
-        $sql = "SELECT * FROM trabajador WHERE Correo = '$correo' AND Contraseña = '$clave'";
-        /*$sql = "SELECT t.*, tr.* FROM trabajador tr
-        INNER JOIN tipo_documento t ON tr.ID_tipo = t.ID_tipo
-        WHERE tr.Correo = '$correo' AND tr.Contraseña = '$clave'";*/
+        $sql = "SELECT * FROM usuario WHERE dni = '$dni' AND contraseña = '$clave'";
         $result = mysqli_query($conexion, $sql);
+
         if (mysqli_num_rows($result) === 1) {
             $row = mysqli_fetch_assoc($result);
-            if ($row['Correo'] === $correo && $row['Contraseña'] === $clave) {
-                if ($row['Estado'] == 1) {
-                    $_SESSION['Nombre'] = $row['Nombre'];
-                    $_SESSION['Apellido'] = $row['Apellido'];
-                    $_SESSION['Correo'] = $row['Correo'];
-                    $_SESSION['DNI'] = $row['DNI'];
-                    $_SESSION['Permiso'] = $row['Permiso'];
-                    $_SESSION['ID_trabajador'] = $row['ID_trabajador'];
-                    header("Location: ../Views/index.php");
+            if ($row['dni'] === $dni && $row['contraseña'] === $clave) {
+                if ($row['estado'] == 1) {
+                    $rolSql = "SELECT nombre FROM rol WHERE ID_rol = " . $row['ID_rol'];
+                    $rolResult = mysqli_query($conexion, $rolSql);
+                    $rolRow = mysqli_fetch_assoc($rolResult);
+
+
+                    $_SESSION['dni'] = $row['dni'];
+                    $_SESSION['nombre'] = $row['nombre'];
+                    $_SESSION['apellido'] = $row['apellido'];
+                    $_SESSION['correo'] = $row['correo'];
+                    $_SESSION['contraseña'] = $row['contraseña'];
+                    $_SESSION['ID_rol'] = $row['ID_rol'];
+                    $_SESSION['estado'] = $row['estado'];
+                    $_SESSION['nombre_rol'] = $rolRow['nombre'];
+                    echo json_encode(array('error' => 0, 'mensaje' => 'Sesion iniciada correctamente.'));
                     exit();
                 } else {
-                    header("Location: index.php?error=correo-inhabilitado");
+                    echo json_encode(array('error' => 1, 'mensaje' => 'La cuenta esta inhabilitada, comuniquese con un administrador.'));
                     exit();
                 }
             } else {
-                header("Location: index.php?error=cuenta-no-encontra");
+                echo json_encode(array('error' => 1, 'mensaje' => 'El usuario no existe.'));
                 exit();
             }
         } else {
-            header("Location: index.php?error=cuenta-no-encontrada");
+            echo json_encode(array('error' => 1, 'mensaje' => 'El usuario no existe.'));
             exit();
         }
     }
 } else {
-    header("Location: index.php?error=fallo-enviar-datos");
+    echo json_encode(array('error' => 1, 'mensaje' => 'Error al enviar los datos.'));
     exit();
 }

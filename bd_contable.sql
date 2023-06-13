@@ -26,7 +26,7 @@
 
         CREATE TABLE Usuario
         (
-          dni INT AUTO_INCREMENT,
+          dni INT,
 	        nombre VARCHAR (50) NOT NULL,
 	        apellido VARCHAR (50) NOT NULL,
 	        correo VARCHAR (250) NOT NULL,
@@ -83,10 +83,10 @@ CREATE TABLE Caja
             (987654321, 'Empresa B', 'empresaB@gmail.com', 123456789, 1);
 
           INSERT INTO Usuario
-            (nombre, apellido, correo, contraseña, ID_rol, estado)
+            (dni, nombre, apellido, correo, contraseña, ID_rol, estado)
           VALUES
-            ('Juan', 'Perez', 'juanperez@gmail.com', '123456', 1, 1),
-            ('Maria', 'Lopez', 'marialopez@gmail.com', '654321', 2, 1);
+            (12322678, 'Juan', 'Perez', 'juanperez@gmail.com', '123456', 1, 1),
+            (87622321,'Maria', 'Lopez', 'marialopez@gmail.com', '654321', 2, 1);
 
           INSERT INTO Transaccion
             (dni, ruc, titulo, descripcion, fecha, monto, ID_tipo)

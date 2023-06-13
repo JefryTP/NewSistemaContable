@@ -3,7 +3,7 @@ $host = 'localhost';
 $user = 'root';
 $pass = '';
 
-$bd = 'bd_farmacia';
+$bd = 'bd_contable';
 /*
 try {
     $conexion = new PDO("mysql:host=$host;dbname=$bd;", $user, $pass);
