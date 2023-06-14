@@ -19,6 +19,10 @@ if (!isset($_SESSION['estado'])) {
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+  
+  <link rel="stylesheet" href="../Plantilla/AdminLTE-3.2.0/estilos_propio.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../Plantilla/AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
@@ -37,18 +41,7 @@ if (!isset($_SESSION['estado'])) {
   <link rel="stylesheet" href="../Plantilla/AdminLTE-3.2.0/plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="../Plantilla/AdminLTE-3.2.0/plugins/summernote/summernote-bs4.min.css">
-  <style>
-    .ocultar-btn-incremento::-webkit-inner-spin-button,
-    .ocultar-btn-incremento::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      appearance: none;
-      margin: 0;
-    }
 
-    .nav-item {
-      user-select: none;
-    }
-  </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -59,20 +52,14 @@ if (!isset($_SESSION['estado'])) {
       <img class="animation__shake" src="../Plantilla/AdminLTE-3.2.0/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
     </div>
 
-    <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
       </ul>
-
-      <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
         <li class="nav-item">
-
           <div class="navbar-search-block">
             <form class="form-inline">
               <div class="input-group input-group-sm">
@@ -89,12 +76,6 @@ if (!isset($_SESSION['estado'])) {
             </form>
           </div>
         </li>
-
-        <!-- Messages Dropdown Menu -->
-
-        <!-- Notifications Dropdown Menu -->
-
-        <!-- Full screen-->
         <li class="nav-item">
           <a class="nav-link" data-widget="fullscreen" href="#" role="button">
             <i class="fas fa-expand-arrows-alt"></i>
@@ -112,16 +93,8 @@ if (!isset($_SESSION['estado'])) {
         </li>
       </ul>
     </nav>
-    <!-- /.navbar -->
-
-    <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
-
-
-      <!-- Sidebar -->
       <div class="sidebar" style="user-select: none;">
-        <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
           <div class="image">
             <?php if ($_SESSION['nombre_rol'] == "Administrador") {
@@ -130,7 +103,6 @@ if (!isset($_SESSION['estado'])) {
                                                                                                                                   ?> <img src="../Plantilla/AdminLTE-3.2.0/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> <?php
                                                                                                                                                                                                                                                       }
                                                                                                                                                                                                                                                         ?>
-
           </div>
           <div class="info align-self-center ml-3">
             <a href="#" class="d-block text-primary font-weight-bold disable-link" style="pointer-events: none;
@@ -138,102 +110,36 @@ if (!isset($_SESSION['estado'])) {
                     echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido'];
                     ?></a>
             <span class="text-muted"><?php echo $_SESSION['nombre_rol'] ?></span>
-
           </div>
         </div>
-
-        <!-- SidebarSearch Form -->
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-            <!--li class="nav-item">
-              <a onclick="cargar_contenido('contenido_principal','usuario/vista_panel_venta.php')" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                  Panel de Venta
-                </p>
-              </a>
-            </li-->
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                  Medicamentos
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_medicina_agregar.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Agregar Medicamento</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_medicina_gestion.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Gestionar Medicamento</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
             <?php if ($_SESSION['nombre_rol'] == "Administrador") {
             ?>
               <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="nav-icon fas fa-table"></i>
+                <a onclick="cargar_contenido('contenido_principal','usuario/panel_administracion.php')" class="nav-link">
+                  <i class="nav-icon fas fa-th"></i>
                   <p>
-                    Administradores
-                    <i class="right fas fa-angle-left"></i>
+                    Administracion
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a onclick="cargar_contenido('contenido_principal','usuario/vista_admin_agregar.php')" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Agregar Administrador</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a onclick="cargar_contenido('contenido_principal','usuario/vista_admin_gestion.php')" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Gestionar Administrador</p>
-                    </a>
-                  </li>
-                </ul>
               </li>
             <?php }  ?>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-table"></i>
+              <a onclick="cargar_contenido('contenido_principal','usuario/panel_cliente.php')" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
                 <p>
-                  Proveedores
-                  <i class="right fas fa-angle-left"></i>
+                  Cliente
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_proveedor_agregar.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Agregar Proveedor</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_proveedor_gestion.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Gestionar Proveedor</p>
-                  </a>
-                </li>
-              </ul>
             </li>
 
             <li class="nav-item">
-              <a href="#" class="nav-link" style="user-select: none;">
-                <i class="nav-icon fas fa-table"></i>
+              <a onclick="cargar_contenido('contenido_principal','usuario/panel_transaccion.php')" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
                 <p>
                   Transaccion
+<<<<<<< HEAD
                   <i class="right fas fa-angle-left"></i>
                 </p>
               </a>
@@ -283,68 +189,100 @@ if (!isset($_SESSION['estado'])) {
                 <p>
                   Historial
                   <i class="right fas fa-angle-left"></i>
+=======
                 </p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_categoria_agregar.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Agregar Categoria</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_categoria_gestion.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Gestionar Categoria</p>
-                  </a>
-                </li>
-              </ul>
+            </li>
+            <li class="nav-item">
+              <a onclick="cargar_contenido('contenido_principal','usuario/panel_caja.php')" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Caja
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a onclick="cargar_contenido('contenido_principal','usuario/panel_historial.php')" class="nav-link">
+                <i class="nav-icon fas fa-th"></i>
+                <p>
+                  Historial
+>>>>>>> 2dcfcaa76e9162270909def386695e2c7d7be092
+                </p>
+              </a>
             </li>
           </ul>
         </nav>
-        <!-- /.sidebar-menu -->
       </div>
-      <!-- /.sidebar -->
     </aside>
-
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
       <!-- Content Header (Page header) -->
+
       <!-- /.content-header -->
       <!-- Main content -->
       <section class="content">
-        <div class="row justify-content-center" id="contenido_principal">
-          <section class="content">
-            <div class="container-fluid">
-              <div class="row">
-                <!-- left column -->
-                <div class="col-md-12">
-                  <!-- jquery validation -->
-                  <div>
-                    <?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']. ' ' . $_SESSION['dni']. ' ' . $_SESSION['correo']. ' ' . $_SESSION['contraseña']. ' ' . $_SESSION['ID_rol']. ' ' . $_SESSION['estado']. ' ' . $_SESSION['nombre_rol'];?>
-                  </div>
-                  <!-- /.card -->
-                </div>
-                <!--/.col (left) -->
-                <!-- right column -->
+        <div class="container-fluid" id="contenido_principal">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>150</h3>
 
-                <!--/.col (right) -->
+                  <p>New Orders</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
-              <!-- /.row -->
-            </div><!-- /.container-fluid -->
-          </section>
-          <!--div class="col-md-12">
-          </!--div-->
-        </div>
-        <!-- /.content -->
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                  <p>Bounce Rate</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3>44</h3>
+
+                  <p>User Registrations</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+
+            <!-- ./col -->
+          </div>
+
+      </section>
+      <!-- /.Left col -->
+      <!-- right col (We are only adding the ID to make the widgets sortable)-->
+
+      <!-- right col -->
     </div>
-    <!-- /.content-wrapper -->
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-    </aside>
-    <!-- /.control-sidebar -->
-  </div>
+    <!-- /.row (main row) -->
+  </div><!-- /.container-fluid -->
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- ./wrapper -->
@@ -355,6 +293,8 @@ if (!isset($_SESSION['estado'])) {
   <script src="../Plantilla/AdminLTE-3.2.0/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
   <script>
     function cargar_contenido(contenedor, contenido) {
       $("#" + contenedor).load(contenido);
