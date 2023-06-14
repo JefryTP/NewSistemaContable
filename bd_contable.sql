@@ -91,11 +91,11 @@ CREATE TABLE Caja
           INSERT INTO Transaccion
             (dni, ruc, titulo, descripcion, fecha, monto, ID_tipo)
           VALUES
-            (1, 123456789, 'Venta de productos', 'Venta de productos a Empresa A', '2023-06-01 10:00:00', 100.00, 1),
-            (2, NULL, 'Pago de servicios', 'Pago de servicios a Empresa B', '2023-06-01 16:00:00', 50.00, 2);
+            (12322678, 123456789, 'Venta de productos', 'Venta de productos a Empresa A', '2023-06-01 10:00:00', 100.00, 1),
+            (287622321, NULL, 'Pago de servicios', 'Pago de servicios a Empresa B', '2023-06-01 16:00:00', 50.00, 2);
 
           INSERT INTO Caja
             (dni, ID_transaccion, fecha)
           VALUES
-            (1, 1, '2023-06-01 09:00:00'),
-            (2, 2, '2023-06-01 15:30:00');
+            (12322678, 1, '2023-06-01 09:00:00'),
+            (87622321, 2, '2023-06-01 15:30:00');
