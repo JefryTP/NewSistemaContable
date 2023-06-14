@@ -7,7 +7,7 @@ include('../../conexion.php');
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Panel Transaccion</h1>
+                    <h1>Panel Caja</h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -23,10 +23,8 @@ include('../../conexion.php');
                             <table id="example1" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Cliente</th>
+                                        <th scope="col">Fecha y Hora</th>
                                         <th scope="col">Titulo</th>
-                                        <th scope="col">Descripcion</th>
-                                        <th scope="col">Fecha</th>
                                         <th scope="col">Tipo</th>
                                         <th scope="col">Monto</th>
                                         <th></th>
