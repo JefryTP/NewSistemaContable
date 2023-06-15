@@ -4,15 +4,16 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   $dni = $_POST['dni'];
-  $cargo = $_POST['estado'];
+  $estado = $_POST['estado'];
   $nombre = $_POST['nombre'];
   $apellido = $_POST['apellido'];
   $correo = $_POST['correo'];
-  $contrasena = $_POST['contraseña'];
+  $contraseña = $_POST['contraseña'];
+  $cargo = $_POST['cargo'];
 
   require_once '../../conexion.php';
 
-  $sql = "SELECT * FROM trabajador WHERE DNI = '$dni'";
+  $sql = "SELECT * FROM usuario WHERE dni = '$dni'";
   $result = $conexion->query($sql);
 
   if ($result->num_rows > 0) {
@@ -21,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode(array('error' => 1, 'mensaje' => 'El trabajador ya existe.'));
   } else {
     // Insertar el nuevo proveedor
-    $insertSql = "INSERT INTO trabajador (Nombre, Apellido, Correo, DNI, Contraseña, Permiso, Estado) VALUES ('$nombre', '$apellido', '$correo', '$dni', '$contrasena', '$cargo','1')";
+    $insertSql = "INSERT INTO usuario (dni, nombre, apellido, Correo, Contraseña, ID_rol, Estado) VALUES ('$dni', '$nombre', '$apellido', '$correo', '$contraseña', '$cargo','$estado')";
 
     if ($conexion->query($insertSql) === TRUE) {
       //$response['mensaje'] = "Registro guardado correctamente en la base de datos.";

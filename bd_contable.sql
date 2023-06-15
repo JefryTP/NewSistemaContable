@@ -92,11 +92,7 @@ CREATE TABLE Caja
             (dni, ruc, titulo, descripcion, fecha, monto, ID_tipo)
           VALUES
             (12322678, 123456789, 'Venta de productos', 'Venta de productos a Empresa A', '2023-06-01 10:00:00', 100.00, 1),
-<<<<<<< HEAD
-            (87622321, NULL, 'Pago de servicios', 'Pago de servicios a Empresa B', '2023-06-01 16:00:00', 50.00, 2);
-=======
             (287622321, NULL, 'Pago de servicios', 'Pago de servicios a Empresa B', '2023-06-01 16:00:00', 50.00, 2);
->>>>>>> 2dcfcaa76e9162270909def386695e2c7d7be092
 
           INSERT INTO Caja
             (dni, ID_transaccion, fecha)
