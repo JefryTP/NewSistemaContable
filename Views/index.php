@@ -139,57 +139,6 @@ if (!isset($_SESSION['estado'])) {
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Transaccion
-<<<<<<< HEAD
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_categoria_agregar.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Agregar Categoria</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_categoria_gestion.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Gestionar Categoria</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="nav-item">
-              <a href="#" class="nav-link" style="user-select: none;">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                  Caja
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_categoria_agregar.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Agregar Categoria</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a onclick="cargar_contenido('contenido_principal','usuario/vista_caja_gestion.php')" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Gestionar Categoria</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-            <li class="nav-item">
-              <a href="#" class="nav-link" style="user-select: none;">
-                <i class="nav-icon fas fa-table"></i>
-                <p>
-                  Historial
-                  <i class="right fas fa-angle-left"></i>
-=======
                 </p>
               </a>
             </li>
@@ -206,7 +155,6 @@ if (!isset($_SESSION['estado'])) {
                 <i class="nav-icon fas fa-th"></i>
                 <p>
                   Historial
->>>>>>> 2dcfcaa76e9162270909def386695e2c7d7be092
                 </p>
               </a>
             </li>
