@@ -1,23 +1,19 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $dni = $_POST['dni'];
-    $estado = $_POST['estado'];
+    $ruc = $_POST['ruc'];
     $nombre = $_POST['nombre'];
-    $apellido = $_POST['apellido'];
     $correo = $_POST['correo'];
-    $contraseña = $_POST['contraseña'];
-    $cargo = $_POST['cargo'];
+    $telefono = $_POST['telefono'];
+    $estado = $_POST['estado'];
 
     require_once '../../conexion.php';
 
     // Validar y sanitizar los datos recibidos
     $nombre = trim($nombre);
-    $apellido = trim($apellido);
     $correo = trim($correo);
-    $contraseña = trim($contraseña);
 
-    if (empty($nombre) || empty($apellido) || empty($correo) || empty($contraseña)) {
+    if (empty($ruc) || empty($nombre)) {
         header('Content-Type: application/json');
 
         echo json_encode(array('error' => 1, 'mensaje' => 'Debes proporcionar todos los campos.'));
@@ -25,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Preparar la consulta de actualización
-    $updateSql = "UPDATE `usuario` SET `nombre`=?, `apellido`=?, `correo`=?, `contraseña`=?, `ID_rol`=?, `estado`=? WHERE `dni`=?";
+    $updateSql = "UPDATE `cliente` SET `nombre`=?, `correo`=?, `telefono`=?, `estado`=? WHERE `ruc`=?";
     $stmt = $conexion->prepare($updateSql);
-    $stmt->bind_param("ssssiii", $nombre, $apellido, $correo, $contraseña, $cargo, $estado, $dni);
+    $stmt->bind_param("ssiii", $nombre, $correo, $telefono, $estado, $ruc);
 
     if ($stmt->execute()) {
         // Verificar si se actualizó alguna fila

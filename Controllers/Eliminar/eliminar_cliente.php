@@ -1,11 +1,11 @@
 <?php
 include('../../conexion.php');
 
-if (isset($_POST['dni'])) {
-    $dni = $_POST['dni'];
+if (isset($_POST['ruc'])) {
+    $ruc = $_POST['ruc'];
 
     // Realizar la consulta de eliminación
-    $sql = "DELETE FROM usuario WHERE dni = $dni";
+    $sql = "DELETE FROM cliente WHERE ruc = $ruc";
     if (mysqli_query($conexion, $sql)) {
         // Éxito en la eliminación
         echo json_encode(array('status' => 'success', 'message' => 'Registro eliminado correctamente.'));

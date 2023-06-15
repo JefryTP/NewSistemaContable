@@ -1,4 +1,4 @@
---El nombre de la Base de Datos debe ser "bd_contable"
+-- El nombre de la Base de Datos debe ser "bd_contable"
 
   CREATE TABLE Rol
   (

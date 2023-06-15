@@ -21,7 +21,7 @@ if (!isset($_SESSION['estado'])) {
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
 
-
+  
   <link rel="stylesheet" href="../Plantilla/AdminLTE-3.2.0/estilos_propio.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../Plantilla/AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css">
@@ -114,6 +114,7 @@ if (!isset($_SESSION['estado'])) {
         </div>
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            
           <li class="nav-item">
               <a onclick="cargar_contenido('contenido_principal','usuario/panel_transaccion.php')" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
@@ -142,7 +143,6 @@ if (!isset($_SESSION['estado'])) {
               </a>
             </li>
 
-            
             <li class="nav-item">
               <a onclick="cargar_contenido('contenido_principal','usuario/panel_historial.php')" class="nav-link">
                 <i class="nav-icon fas fa-th"></i>
@@ -156,107 +156,72 @@ if (!isset($_SESSION['estado'])) {
       </div>
     </aside>
     <div class="content-wrapper">
+
       <!-- Content Header (Page header) -->
+
       <!-- /.content-header -->
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid" id="contenido_principal">
-          <div class="row g-3 pt-5">
-            <div class="col-sm-3"></div>
-            <div class="col pt-3 borde">
-              <div class="row g-3 mb-3 mr-1 ml-1">
-                <div class="col-sm-2">
-                </div>
-                <div class="col-sm">
-                  <h1 class="titulo-facturas">Generar Facturas</h1>
-                </div>
-                <div class="col-sm-2">
-                </div>
-              </div>
-              <div class="row g-3 mb-3 mr-1 ml-1">
-                <div class="col-sm">
-                  <label>Cliente (opcional):</label>
-                  <select class="form-control" id="rucInput" name="rucInput">
-                    <option value="" selected>Sin empresa asociada...</option>
-                    <?php
-                    $sql = "SELECT * FROM cliente";
-                    $result = mysqli_query($conexion, $sql);
-                    while ($mostrar = mysqli_fetch_array($result)) {
-                      if ($mostrar['estado'] == 1) {
-                    ?>
-                        <option value="<?php echo $mostrar['ruc']; ?>"><?php echo $mostrar['nombre']; ?></option>
-                    <?php
-                      }
-                    }
-                    ?>
-                  </select>
-                </div>
-                <div class="col-sm">
-                  <label>Titulo:</label>
-                  <input type="text" class="form-control" id="tituloInput" name="tituloInput" placeholder="Ingrese Titulo" required>
-                </div>
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-info">
+                <div class="inner">
+                  <h3>150</h3>
 
-              </div>
-              <div class="row g-3 mb-3 mr-1 ml-1">
-                <div class="col-sm">
-                  <label>Descripcion:</label>
-                  <textarea class="form-control" placeholder="Ingrese Descripcion" id="descriInput" name="descriInput" style="height: 100px"></textarea>
+                  <p>New Orders</p>
                 </div>
-              </div>
-              <div class="row g-3 mb-3 mr-1 ml-1">
-                <div class="col-sm-3">
-                  <label>Tipo:</label>
-                  <select class="form-control" id="tipoInput" name="tipoInput">
-                    <?php
-                    $sqlTipo = "SELECT * FROM tipo";
-                    $consulta = mysqli_query($conexion, $sqlTipo);
-                    while ($mostrarTipo = mysqli_fetch_array($consulta)) {
-                    ?>
-                      <option value="<?php echo $mostrarTipo['ID_tipo']; ?>"><?php echo $mostrarTipo['nombre']; ?></option>
-                    <?php
-                    }
-                    ?>
-                  </select>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
                 </div>
-                <div class="col-sm">
-                  <label>Monto:</label>
-                  <div class="input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" style="user-select: none;"><i class="fas fa-dollar-sign"></i></span>
-                    </div>
-                    <input type="number" class="form-control ocultar-btn-incremento" id="montoInput" name="montoInput" placeholder="Ingrese Monto" required>
-                    <input type="hidden" value="<?php echo $_SESSION['dni'] ?>" id="dniInput" name="dniInput">
-                  </div>
-                </div>
-                <div class="col-sm">
-                  <label>Fecha:</label>
-                  <div class="input-group">
-                    <input type="text" id="fechaInput" class="form-control" name="fechaInput" readonly>
-                    <div class="input-group-append">
-                      <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row g-3 mb-3 mt-5 mr-1 ml-1">
-                <div class="col-sm">
-                </div>
-                <div class="col-sm-5">
-                  <button type="submit" class="btn btn-success form-control" id="btn_agregar">Generar Factura</button>
-                </div>
-                <div class="col-sm">
-                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-            <div class="col-sm-3"></div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-success">
+                <div class="inner">
+                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                  <p>Bounce Rate</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner">
+                  <h3>44</h3>
+
+                  <p>User Registrations</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+
+            <!-- ./col -->
           </div>
-        </div>
+
       </section>
+      <!-- /.Left col -->
+      <!-- right col (We are only adding the ID to make the widgets sortable)-->
+
+      <!-- right col -->
     </div>
     <!-- /.row (main row) -->
   </div><!-- /.container-fluid -->
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -271,7 +236,12 @@ if (!isset($_SESSION['estado'])) {
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 
-
+  <script>
+    function cargar_contenido(contenedor, contenido) {
+      $("#" + contenedor).load(contenido);
+    }
+    $.widget.bridge('uibutton', $.ui.button)
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <!-- Bootstrap 4 -->

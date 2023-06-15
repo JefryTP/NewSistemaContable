@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .titulo-facturas {
   font-size: 30px;
   font-weight: bold;
@@ -6,6 +7,8 @@
   
 }
 
+=======
+>>>>>>> origin/area_doc
 .titulo {
     text-align: left; 
 font-family: Arial Black; 
@@ -14,8 +17,11 @@ font-size: 100px;
 color: #fff; 
 text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 };
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> origin/area_doc
 .ocultar-btn-incremento::-webkit-inner-spin-button,
 .ocultar-btn-incremento::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -25,8 +31,12 @@ text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 
 .nav-item {
   user-select: none;
+<<<<<<< HEAD
 }
 .borde {
   border: 1px solid #ddd; /* Color del borde */
   border-radius: 5px; /* Borde redondeado */
 }
+=======
+}
+>>>>>>> origin/area_doc
