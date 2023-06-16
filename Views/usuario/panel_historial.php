@@ -13,7 +13,6 @@ include('../../conexion.php');
                         <h1 class="titulo">Historial</h1>
                     </div><!-- /.container-fluid -->
                 </section>
-                <button id="btn_descargar">Descargar Excel</button>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -21,6 +20,9 @@ include('../../conexion.php');
                     <div class="card">
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div class="btn">
+                                <button type="button" class="btn btn-success" id="btn_descargar">Descargar Excel</button>
+                            </div>
                             <table id="myTable" class="table table-bordered table-striped display" data-page-length="10">
                                 <thead>
                                     <tr>
@@ -130,7 +132,7 @@ INNER JOIN tipo ti ON tr.ID_tipo = ti.ID_tipo";
         // Crear un enlace de descarga y establecer el archivo Blob
         var link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'tabla.xlsx';
+        link.download = 'historial.xlsx';
 
         // Simular el clic en el enlace para iniciar la descarga
         link.click();

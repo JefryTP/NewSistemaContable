@@ -22,7 +22,8 @@ include('../../conexion.php');
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="btn">
-                                <button type="button" class="btn btn-primary btn_agregar">Agregar</button>
+                                <button type="button" class="btn btn-primary btn_agregar mr-2">Agregar</button>
+                                <button type="button" class="btn btn-success ml-2" id="btn_descargar">Descargar Excel</button>
                             </div>
                             <table id="myTable" class="table table-bordered table-striped display">
                                 <thead>
@@ -96,6 +97,40 @@ include('../../conexion.php');
     <!-- /.content -->
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.getElementById('btn_descargar').addEventListener('click', function() {
+        // Obtener el contenido de la tabla
+        var table = document.getElementById('myTable');
+
+        // Crear un libro de Excel
+        var workbook = XLSX.utils.book_new();
+
+        // Crear una hoja de Excel y convertir la tabla en un objeto de datos
+        var worksheet = XLSX.utils.table_to_sheet(table);
+
+        // Añadir la hoja al libro
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Datos');
+
+        // Generar un archivo binario a partir del libro
+        var excelBuffer = XLSX.write(workbook, {
+            bookType: 'xlsx',
+            type: 'array'
+        });
+
+        // Convertir el archivo binario a Blob
+        var blob = new Blob([excelBuffer], {
+            type: 'application/octet-stream'
+        });
+
+        // Crear un enlace de descarga y establecer el archivo Blob
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'administracion.xlsx';
+
+        // Simular el clic en el enlace para iniciar la descarga
+        link.click();
+    });
+</script>
 <script>
     $(document).ready(function() {
         $('#myTable').DataTable();
