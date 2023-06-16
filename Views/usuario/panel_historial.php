@@ -156,87 +156,63 @@ INNER JOIN tipo ti ON tr.ID_tipo = ti.ID_tipo";
         var descripcion = $(this).data('descripcion');
 
         Swal.fire({
-            title: 'Factura',
+            title: 'Factura -' + fecha,
             html: `
-            <div class="form-group">
-                <div class="row">
-                    <div class="col-md">
-                        <label for="dni">DNI:</label>
-                        <input type="number" class="form-control ocultar-btn-incremento" name="dni" value="${dni}" readonly>
-                    </div>
-                    <div class="col-md">
-                        <label for="estado">Estado:</label>
-                        <select class="form-control" name="estado" required>
-                            ${opciones}
-                        </select>
-                    </div>
-                    <div class="col-md">
-                        <label for="cargo">Cargo:</label>
-                        <select class="form-control" name="cargo" required>
-                            ${opciones2}
-                        </select>
-                    </div>
+            <div class="col pt-3 borde form-group">
+            <div class="row g-3">
+                <div class="col-sm">
+                    <label>ID</label>
+                    <input class="form-control" value="${idtrans}" disabled>
                 </div>
-                <div class="row">
-                    <div class="col-md">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" class="form-control" name="nombre" value="${nombre}" required>
-                    </div>
-                    <div class="col-md">
-                        <label for="apellido">Apellido:</label>
-                        <input type="text" class="form-control" name="apellido" value="${apellido}" required>
-                    </div>
+                <div class="col-sm">
+                    <label>Titulo</label>
+                    <input class="form-control" value="${titulo}" disabled>
                 </div>
-                <div class="row">
-                    <div class="col-md">
-                        <label for="correo">Correo:</label>
-                        <input type="email" class="form-control" name="correo" value="${correo}" required>
-                    </div>
-                    <div class="col-md">
-                        <label for="contraseña">Contraseña:</label>
-                        <input type="text" class="form-control" name="contraseña" value="${contraseña}" required>
-                    </div>
-                </div>
-                <input type="hidden" name="id" value="${id}">
             </div>
-            `,
-            showCancelButton: true,
+            <div class="row g-3">
+                <div class="col-sm">
+                    <label>DNI</label>
+                    <input class="form-control" value="${dni}" disabled>
+                </div>
+                <div class="col-sm">
+                    <label>Trabajador</label>
+                    <input class="form-control" value="${nombre_usuario}" disabled>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-sm">
+                    <label>RUC</label>
+                    <input class="form-control" value="${ruc}" disabled>
+                </div>
+                <div class="col-sm">
+                    <label>Empresa</label>
+                    <input class="form-control" value="${nombre_cliente}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <label>Monto</label>
+                    <input class="form-control" value="${monto}" disabled>
+                </div>
+                <div class="col-md-3">
+                    <label>Tipo</label>
+                    <input class="form-control" value="${nombre_tipo}" disabled>
+                </div>
+                <div class="col-md">
+                    <label>Fecha</label>
+                    <input class="form-control" value="${fecha}" disabled>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-sm">
+                    <label>Descripcion:</label>
+                    <textarea class="form-control" rows="3" disabled>${descripcion}</textarea>
+                </div>
+            </div>
+        `,
+            showCancelButton: false,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Aplicar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                var datos = $('#update-admin').serialize();
-                var url = "../Controllers/Actualizar/update_admin.php";
-
-                var regexTEXTO = /^[a-zA-ZáÁéÉíÍóÓúÚüÜñÑ\s]+$/;
-                var regexCORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                var regexCORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                var regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if (!regexTEXTO.test(nombre)) {
-                    Swal.fire("Ingrese un nombre válido", "", "error");
-                    return;
-                }
-                if (!regexTEXTO.test(apellido)) {
-                    Swal.fire("Ingrese un apellido válido", "", "error");
-                    return;
-                }
-                if (!regexCORREO.test(correo)) {
-                    Swal.fire("Ingrese un correo válido", "", "error");
-                    return;
-                }
-
-                $.post(url, datos, function(respuesta) {
-
-                    if (datos.error === 1) {
-                        Swal.fire(respuesta.mensaje, "", "error");
-
-                    } else {
-                        Swal.fire(respuesta.mensaje, "", "success");
-                    }
-                });
-            }
+            confirmButtonText: 'Aceptar'
         });
     });
     $('.btn_eliminar').click(function() {
