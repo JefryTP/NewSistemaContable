@@ -3,9 +3,10 @@ include('../../conexion.php');
 
 if (isset($_POST['id'])) {
     $id = $_POST['id'];
+    
 
     // Realizar la consulta de eliminación
-    $sql = "DELETE FROM categoria WHERE ID_categoria = $id";
+    $sql = "DELETE FROM transaccion WHERE ID_transaccion = $id";
     if (mysqli_query($conexion, $sql)) {
         // Éxito en la eliminación
         echo json_encode(array('status' => 'success', 'message' => 'Registro eliminado correctamente.'));

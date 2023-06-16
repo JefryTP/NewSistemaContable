@@ -67,7 +67,7 @@ include('../../conexion.php');
                         <span class="input-group-text" style="user-select: none;"><i class="fas fa-dollar-sign"></i></span>
                     </div>
                     <input type="number" class="form-control ocultar-btn-incremento" id="montoInput" name="montoInput" placeholder="Ingrese Monto" required>
-                    <input type="hidden" value="<?php echo $_SESSION['dni']?>" id="dniInput" name="dniInput">
+                    <input type="hidden" value="<?php echo $_SESSION['dni'] ?>" id="dniInput" name="dniInput">
                 </div>
             </div>
             <div class="col-sm">
@@ -92,6 +92,37 @@ include('../../conexion.php');
     </div>
     <div class="col-sm-3"></div>
 </div>
+<script>
+    $(document).ready(function() {
+        // Obtener el elemento de entrada de fecha
+        var fechaInput = document.getElementById('fechaInput');
+
+        // Verificar si el elemento existe
+        if (fechaInput) {
+            // Obtener la fecha actual
+            function actualizarFecha() {
+                var fechaActual = new Date();
+                var dia = fechaActual.getDate();
+                var mes = fechaActual.getMonth() + 1;
+                var anio = fechaActual.getFullYear();
+                var hora = fechaActual.getHours();
+                var minutos = fechaActual.getMinutes();
+
+                // Formatear la fecha y hora
+                var fechaFormateada = dia + '/' + mes + '/' + anio + ' ' + hora + ':' + minutos;
+
+                // Asignar el valor formateado al campo de entrada
+                fechaInput.value = fechaFormateada;
+            }
+
+            // Actualizar la fecha cada segundo (1000 milisegundos)
+            setInterval(actualizarFecha, 1000);
+
+            // Iniciar la actualización de la fecha
+            actualizarFecha();
+        }
+    });
+</script>
 <script>
     $('#btn_agregar').click(function() {
         var fecha = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -151,7 +182,7 @@ include('../../conexion.php');
             fecha: fecha
         }, function(datos) {
             var respuesta = JSON.parse(datos);
-            
+
             if (respuesta.error === 1) {
                 Swal.fire(respuesta.mensaje, "", "error");
             } else {
